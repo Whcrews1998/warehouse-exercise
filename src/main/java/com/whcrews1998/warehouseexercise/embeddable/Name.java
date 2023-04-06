@@ -1,4 +1,4 @@
-package com.whcrews1998.warehouseexercise.user;
+package com.whcrews1998.warehouseexercise.embeddable;
 
 import jakarta.persistence.Embeddable;
 
