@@ -1,6 +1,7 @@
 package com.whcrews1998.warehouseexercise.user;
 
 import com.whcrews1998.warehouseexercise.cart.Cart;
+import com.whcrews1998.warehouseexercise.embeddable.Name;
 import jakarta.persistence.*;
 
 @Entity(name="user_details")
