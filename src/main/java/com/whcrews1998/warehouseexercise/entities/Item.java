@@ -1,4 +1,4 @@
-package com.whcrews1998.warehouseexercise.item;
+package com.whcrews1998.warehouseexercise.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
