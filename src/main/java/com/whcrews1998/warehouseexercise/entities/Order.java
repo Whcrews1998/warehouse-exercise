@@ -9,6 +9,9 @@ public class Order {
     @GeneratedValue
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User user;
     private Name user_name;
 
     public Order() {
@@ -28,5 +31,13 @@ public class Order {
 
     public void setUser_name(Name user_name) {
         this.user_name = user_name;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
