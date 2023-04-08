@@ -12,9 +12,6 @@ public class User {
     @Embedded
     private Name name;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="cart_id")
-    private Cart cart;
 
     public User() {
     }
