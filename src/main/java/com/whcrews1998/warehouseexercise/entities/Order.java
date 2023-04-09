@@ -13,7 +13,7 @@ public class Order {
 
     private Name user_name;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="order_id")
     private List<OrderDetails> orderDetailsList;
 

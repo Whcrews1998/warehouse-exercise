@@ -14,7 +14,7 @@ public class User {
     @Embedded
     private Name name;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private List<Order> orderList;
 
