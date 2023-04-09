@@ -4,6 +4,8 @@ import com.whcrews1998.warehouseexercise.models.Cart;
 import com.whcrews1998.warehouseexercise.embeddable.Name;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity(name="user_details")
 public class User {
     @Id
@@ -11,6 +13,10 @@ public class User {
     private Integer id;
     @Embedded
     private Name name;
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Order> orderList;
 
 
     public User() {
@@ -35,6 +41,14 @@ public class User {
 
     public void setName(Name name) {
         this.name = name;
+    }
+
+    public List<Order> getOrderList() {
+        return orderList;
+    }
+
+    public void setOrderList(List<Order> orderList) {
+        this.orderList = orderList;
     }
 }
 

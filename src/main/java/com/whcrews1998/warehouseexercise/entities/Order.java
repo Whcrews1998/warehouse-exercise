@@ -3,16 +3,19 @@ package com.whcrews1998.warehouseexercise.entities;
 import com.whcrews1998.warehouseexercise.embeddable.Name;
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity(name="orders")
 public class Order {
     @Id
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name="user_id")
-    private User user;
     private Name user_name;
+
+    @OneToMany
+    @JoinColumn(name="order_id")
+    private List<OrderDetails> orderDetailsList;
 
     public Order() {
     }
@@ -33,11 +36,14 @@ public class Order {
         this.user_name = user_name;
     }
 
-    public User getUser() {
-        return user;
+    public List<OrderDetails> getOrderDetailsList() {
+        return orderDetailsList;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setOrderDetailsList(List<OrderDetails> orderDetailsList) {
+        this.orderDetailsList = orderDetailsList;
     }
 }
+/* TODO: Add a OrderDetails List in this class and make sure cascade is set to 'ALL'. Only have to save Order instead of Order AND Order Detail.
+
+ */
