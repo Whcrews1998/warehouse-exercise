@@ -3,6 +3,7 @@ package com.whcrews1998.warehouseexercise.entities;
 import com.whcrews1998.warehouseexercise.embeddable.Name;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="orders")
@@ -11,13 +12,14 @@ public class Order {
     @GeneratedValue
     private Integer id;
 
-    private Name user_name;
+    private Name userName;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name="order_id")
     private List<OrderDetails> orderDetailsList;
 
     public Order() {
+        this.orderDetailsList = new ArrayList<OrderDetails>();
     }
 
     public Integer getId() {
@@ -28,12 +30,12 @@ public class Order {
         this.id = id;
     }
 
-    public Name getUser_name() {
-        return user_name;
+    public Name getUserName() {
+        return userName;
     }
 
-    public void setUser_name(Name user_name) {
-        this.user_name = user_name;
+    public void setUserName(Name userName) {
+        this.userName = userName;
     }
 
     public List<OrderDetails> getOrderDetailsList() {

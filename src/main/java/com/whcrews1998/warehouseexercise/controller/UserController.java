@@ -1,5 +1,10 @@
 package com.whcrews1998.warehouseexercise.controller;
 
+import com.whcrews1998.warehouseexercise.embeddable.Name;
+import com.whcrews1998.warehouseexercise.entities.Item;
+import com.whcrews1998.warehouseexercise.entities.Order;
+import com.whcrews1998.warehouseexercise.entities.OrderDetails;
+import com.whcrews1998.warehouseexercise.entities.User;
 import com.whcrews1998.warehouseexercise.models.Cart;
 import com.whcrews1998.warehouseexercise.models.ItemInfo;
 import com.whcrews1998.warehouseexercise.repository.UserService;
@@ -9,6 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 public class UserController {
     private UserService userService;
@@ -16,6 +24,7 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
     private Cart getOrCreateCart(HttpSession session) {
         Cart cart = (Cart)session.getAttribute("cart");
         if (cart == null) {
@@ -42,21 +51,48 @@ public class UserController {
         return new ResponseEntity<Cart>(cart, HttpStatus.OK);
     }
 
+    @GetMapping("/users/checkout")
+    public ResponseEntity<List<OrderDetails>> checkout( HttpSession session) {
+        Cart cart = getOrCreateCart(session);
+        // Optional<User> user = userService.findById(userId);
+        User user = new User();
+        user.setName(new Name("Harris", "Crews"));
+
+        if (cart == null) return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NO_CONTENT);
+
+        // Create Order
+        Order order = new Order();
+        order.setUserName(user.getName());
+
+
+        // Save Order Details
+        for (ItemInfo itemInfo: cart.getItemList()) {
+            Item item = new Item();
+            item.setId(itemInfo.getId());
+            item.setPrice(itemInfo.getPrice());
+            item.setName(itemInfo.getName());
+            item.setCategory(itemInfo.getCategory());
+
+            // Create Order Details
+            OrderDetails orderDetails = new OrderDetails();
+            orderDetails.setItem(item);
+            //Save to Order
+            order.getOrderDetailsList().add(orderDetails);
+        }
+
+        // Add to User
+        user.getOrderList().add(order);
+        userService.save(user);
+
+        return new ResponseEntity<>(order.getOrderDetailsList(), HttpStatus.OK);
+    }
+
     @GetMapping("/set-timeout/{timeout}")
     public ResponseEntity<Integer> setTimeout(@PathVariable Integer timeout, HttpSession session) {
         session.setMaxInactiveInterval(timeout);
         return new ResponseEntity<>(timeout, HttpStatus.OK);
     }
 
-    @GetMapping("/store-name/{name}")
-    public ResponseEntity<String> storeName(@PathVariable String name, HttpSession session) {
-        String sessionId = session.getId();
-        session.setAttribute("name", name);
-        return new ResponseEntity<String>(name, HttpStatus.OK);
-    }
-
-    @GetMapping("/get-name")
-    public ResponseEntity<String> getName( HttpSession session) {
-        return new ResponseEntity<String>((String)session.getAttribute("name"), HttpStatus.OK);
-    }
 }
+
+// TODO: Create Checkout API

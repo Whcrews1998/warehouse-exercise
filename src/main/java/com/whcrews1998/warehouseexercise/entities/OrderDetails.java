@@ -10,7 +10,7 @@ public class OrderDetails {
     @GeneratedValue
     private Integer id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name="item_id")
     private Item item;
 

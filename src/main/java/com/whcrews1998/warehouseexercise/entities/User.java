@@ -4,6 +4,7 @@ import com.whcrews1998.warehouseexercise.models.Cart;
 import com.whcrews1998.warehouseexercise.embeddable.Name;
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name="user_details")
@@ -20,6 +21,7 @@ public class User {
 
 
     public User() {
+        this.orderList = new ArrayList<Order>();
     }
 
     public User(Integer id, Name name) {
